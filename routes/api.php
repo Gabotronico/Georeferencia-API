@@ -43,7 +43,7 @@ Route::post('/register', function (Request $request) {
 Route::post('/login', function (Request $request) {
     $user = User::where('email', $request->email)->first();
 
-    if (! $user || ! Hash::check($request->password, $user->password)) {
+    if (!$user || !Hash::check($request->password, $user->password)) {
         throw ValidationException::withMessages([
             'email' => ['Credenciales incorrectas.'],
         ]);
@@ -55,18 +55,17 @@ Route::post('/login', function (Request $request) {
     ]);
 });
 
-Route::apiResource('clientes', ClienteController::class);
-Route::apiResource('vendedores', VendedorController::class);
-Route::apiResource('visitas', VisitaController::class);
-Route::apiResource('zonas', ZonaController::class);
-Route::apiResource('departamentos', DepartamentoController::class);
-Route::apiResource('tipo-clientes', TipoClienteController::class);
-Route::apiResource('area-ventas', AreaVentaController::class);
-Route::apiResource('empresas', EmpresaController::class);
+// Ruta de búsqueda personalizada (protegida con token)
+Route::middleware('auth:sanctum')->get('/clientes/buscar', [ClienteController::class, 'buscarPorNombre']);
 
-//Rutas protegidas con Sanctum (agrega 'auth:sanctum' si deseas protección por token)
+// Rutas protegidas por token
 Route::middleware('auth:sanctum')->group(function () {
-
+    Route::apiResource('clientes', ClienteController::class);
+    Route::apiResource('vendedores', VendedorController::class);
+    Route::apiResource('visitas', VisitaController::class);
+    Route::apiResource('zonas', ZonaController::class);
+    Route::apiResource('departamentos', DepartamentoController::class);
+    Route::apiResource('tipo-clientes', TipoClienteController::class);
+    Route::apiResource('area-ventas', AreaVentaController::class);
+    Route::apiResource('empresas', EmpresaController::class);
 });
-
-
