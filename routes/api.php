@@ -27,7 +27,7 @@ Route::post('/register', function (Request $request) {
     $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|string|email|max:255|unique:users',
-        'password' => 'required|string|min:6|confirmed',
+        'password' => 'required|string|min:6',
     ]);
 
     $user = User::create([
@@ -55,16 +55,18 @@ Route::post('/login', function (Request $request) {
     ]);
 });
 
-// Rutas protegidas con Sanctum (agrega 'auth:sanctum' si deseas protección por token)
+Route::apiResource('clientes', ClienteController::class);
+Route::apiResource('vendedores', VendedorController::class);
+Route::apiResource('visitas', VisitaController::class);
+Route::apiResource('zonas', ZonaController::class);
+Route::apiResource('departamentos', DepartamentoController::class);
+Route::apiResource('tipo-clientes', TipoClienteController::class);
+Route::apiResource('area-ventas', AreaVentaController::class);
+Route::apiResource('empresas', EmpresaController::class);
+
+//Rutas protegidas con Sanctum (agrega 'auth:sanctum' si deseas protección por token)
 Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('clientes', ClienteController::class);
-    Route::apiResource('vendedores', VendedorController::class);
-    Route::apiResource('visitas', VisitaController::class);
-    Route::apiResource('zonas', ZonaController::class);
-    Route::apiResource('departamentos', DepartamentoController::class);
-    Route::apiResource('tipo-clientes', TipoClienteController::class);
-    Route::apiResource('area-ventas', AreaVentaController::class);
-    Route::apiResource('empresas', EmpresaController::class);
+
 });
 
 
