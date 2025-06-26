@@ -15,7 +15,8 @@ class Visita extends Model
         'id_vendedor',
         'id_clientes',
         'fecha_visita',
-        'comentarios'
+        'comentarios',
+        'estado' 
     ];
 
     // 🔁 Relaciones
@@ -30,3 +31,4 @@ class Visita extends Model
         return $this->belongsTo(Cliente::class, 'id_clientes');
     }
 }
+

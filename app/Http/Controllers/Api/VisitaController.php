@@ -20,6 +20,7 @@ class VisitaController extends Controller
             'id_clientes' => 'required|exists:clientes,id',
             'fecha_visita' => 'required|date',
             'comentarios' => 'nullable|string|max:200',
+            'estado' => 'nullable|in:Visitado,No visitado,Pendiente',
         ]);
 
         return Visita::create($request->all());
@@ -39,6 +40,7 @@ class VisitaController extends Controller
             'id_clientes' => 'required|exists:clientes,id',
             'fecha_visita' => 'required|date',
             'comentarios' => 'nullable|string|max:200',
+            'estado' => 'nullable|in:Visitado,No visitado,Pendiente',
         ]);
 
         $visita->update($request->all());

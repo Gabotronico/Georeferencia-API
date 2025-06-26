@@ -10,7 +10,6 @@ class BaseDatosSeeder extends Seeder
 {
     public function run(): void
     {
-        
         // 🔹 Zonas
         DB::table('zonas')->insert([
             ['nombre_zona' => 'Zona Este'],
@@ -85,19 +84,21 @@ class BaseDatosSeeder extends Seeder
             ],
         ]);
 
-        // 🔹 Visitas
+        // 🔹 Visitas (con estado agregado)
         DB::table('visitas')->insert([
             [
                 'id_vendedor' => 1,
                 'id_clientes' => 1,
                 'fecha_visita' => Carbon::now()->subDays(2),
                 'comentarios' => 'Cliente interesado en contrato mensual.',
+                'estado' => 'Visitado',
             ],
             [
                 'id_vendedor' => 2,
                 'id_clientes' => 2,
                 'fecha_visita' => Carbon::now(),
                 'comentarios' => 'Visita técnica para presentación de catálogo.',
+                'estado' => 'Pendiente',
             ],
         ]);
     }

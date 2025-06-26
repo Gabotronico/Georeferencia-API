@@ -12,17 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('visitas', function (Blueprint $table) {
-        $table->id();
-        $table->unsignedBigInteger('id_vendedor');
-        $table->unsignedBigInteger('id_clientes');
-        $table->dateTime('fecha_visita');
-        $table->string('comentarios', 200)->nullable();
-        $table->timestamps();
+            $table->id();
+            $table->unsignedBigInteger('id_vendedor');
+            $table->unsignedBigInteger('id_clientes');
+            $table->dateTime('fecha_visita');
+            $table->string('comentarios', 200)->nullable();
 
-        $table->foreign('id_vendedor')->references('id')->on('vendedors');
-        $table->foreign('id_clientes')->references('id')->on('clientes');
+            // 🔹 Nuevo campo estado
+            $table->enum('estado', ['Visitado', 'No visitado', 'Pendiente'])->default('Pendiente');
+
+            $table->timestamps();
+
+            $table->foreign('id_vendedor')->references('id')->on('vendedors');
+            $table->foreign('id_clientes')->references('id')->on('clientes');
         });
-
     }
 
     /**
