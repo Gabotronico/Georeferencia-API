@@ -18,8 +18,8 @@ return new class extends Migration
        $table->string('apellido_materno', 50);
        $table->date('fecha_nacimiento')->nullable();
        $table->integer('ci')->nullable();
-       $table->unsignedBigInteger('id_area_ventas');
-       $table->unsignedBigInteger('id_empresa');
+       $table->unsignedBigInteger('id_area_ventas')->nullable();
+       $table->unsignedBigInteger('id_empresa')->nullable();
        $table->timestamps();
 
        $table->foreign('id_area_ventas')->references('id')->on('area_ventas');
