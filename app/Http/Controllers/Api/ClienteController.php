@@ -58,23 +58,18 @@ class ClienteController extends Controller
     {
         return Cliente::destroy($id);
     }
-    // Buscar cliente por nombre (coincidencia parcial)
+    // Buscar cliente por nombre (coincidencia parcial o todos si no hay nombre)
     public function buscarPorNombre(Request $request)
-     {
-    $nombre = $request->query('nombre');
+    {
+        $nombre = $request->query('nombre');
 
-    if (!$nombre) {
-        return response()->json(['mensaje' => 'Debe proporcionar un nombre'], 400);
+        $query = Cliente::with(['vendedor', 'zona', 'departamento', 'tipoCliente']);
+        if ($nombre) {
+            $query->where('nombre_cliente', 'like', "%{$nombre}%");
+        }
+        $clientes = $query->get();
+
+        return response()->json($clientes);
     }
-
-    $clientes = Cliente::with(['vendedor', 'zona', 'departamento', 'tipoCliente'])
-        ->where('nombre_cliente', 'like', "%{$nombre}%")
-        ->get();
-
-    return response()->json($clientes);
-     }
-
-    
-    
 }
 

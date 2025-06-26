@@ -12,14 +12,23 @@ class BaseDatosSeeder extends Seeder
     {
         // 🔹 Zonas
         DB::table('zonas')->insert([
-            ['nombre_zona' => 'Zona Este'],
-            ['nombre_zona' => 'Zona Oeste'],
+            ['nombre_zona' => 'Este'],
+            ['nombre_zona' => 'Oeste'],
+            ['nombre_zona' => 'Norte'],
+            ['nombre_zona' => 'Sur'],
         ]);
 
         // 🔹 Departamentos
         DB::table('departamentos')->insert([
             ['nombre_departamento' => 'Cochabamba'],
             ['nombre_departamento' => 'Tarija'],
+            ['nombre_departamento' => 'Santa Cruz'],
+            ['nombre_departamento' => 'La Paz'],
+            ['nombre_departamento' => 'Oruro'],
+            ['nombre_departamento' => 'Potosí'],
+            ['nombre_departamento' => 'Chuquisaca'],
+            ['nombre_departamento' => 'Beni'],
+            ['nombre_departamento' => 'Pando'],
         ]);
 
         // 🔹 Tipo de Cliente
@@ -32,6 +41,8 @@ class BaseDatosSeeder extends Seeder
         DB::table('area_ventas')->insert([
             ['nombre_area' => 'Ventas Directas'],
             ['nombre_area' => 'Televentas'],
+            ['nombre_area' => 'Ventas por Catálogo'],
+            ['nombre_area' => 'Ventas Corporativas'],
         ]);
 
         // 🔹 Empresas

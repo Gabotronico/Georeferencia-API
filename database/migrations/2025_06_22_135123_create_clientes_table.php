@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_cliente', 100); 
-            $table->unsignedBigInteger('id_vendedor');
+            $table->unsignedBigInteger('id_vendedor')->nullable();
             $table->unsignedBigInteger('id_zona');
             $table->unsignedBigInteger('id_departamento');
             $table->unsignedBigInteger('id_tipo_cliente');

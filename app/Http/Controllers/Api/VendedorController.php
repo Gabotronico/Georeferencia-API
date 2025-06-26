@@ -10,7 +10,7 @@ class VendedorController extends Controller
 {
     public function index()
     {
-        return Vendedor::all();
+        return Vendedor::with(['areaVentas', 'empresa'])->get();
     }
 
     public function store(Request $request)
@@ -19,9 +19,6 @@ class VendedorController extends Controller
             'nombre_vendedor' => 'required|string|max:50',
             'apellido_paterno' => 'required|string|max:50',
             'apellido_materno' => 'required|string|max:50',
-            'fecha_nacimiento' => 'required|date',
-            'id_area_ventas' => 'required|exists:area_ventas,id',
-            'id_empresa' => 'required|exists:empresas,id',
         ]);
 
         return Vendedor::create($request->all());
