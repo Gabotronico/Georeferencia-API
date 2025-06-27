@@ -52,24 +52,28 @@ class BaseDatosSeeder extends Seeder
         ]);
 
         // 🔹 Vendedores
-        DB::table('vendedors')->insert([
+       // 🔹 Vendedores
+         DB::table('vendedors')->insert([
             [
-                'nombre_vendedor' => 'Carla',
-                'apellido_paterno' => 'Fernández',
-                'apellido_materno' => 'Loza',
-                'fecha_nacimiento' => '1992-08-15',
-                'id_area_ventas' => 1,
-                'id_empresa' => 1,
-            ],
-            [
-                'nombre_vendedor' => 'Luis',
-                'apellido_paterno' => 'Gómez',
-                'apellido_materno' => 'Cano',
-                'fecha_nacimiento' => '1988-03-22',
-                'id_area_ventas' => 2,
-                'id_empresa' => 2,
-            ],
-        ]);
+        'nombre_vendedor' => 'Gabriel',
+        'apellido_paterno' => 'Cabrera',
+        'apellido_materno' => 'Rojas',
+        'fecha_nacimiento' => '1995-01-01',
+        'correo' => 'cabrerarojasgabriel@gmail.com',
+        'id_area_ventas' => 1,
+        'id_empresa' => 1,
+         ],
+         [
+        'nombre_vendedor' => 'Rodrigo',
+        'apellido_paterno' => 'Mareño',
+        'apellido_materno' => 'López',
+        'fecha_nacimiento' => '1990-05-12',
+        'correo' => 'rodrigo@luri.com',
+        'id_area_ventas' => 2,
+        'id_empresa' => 2,
+         ],
+]);
+
 
         // 🔹 Clientes
         DB::table('clientes')->insert([

@@ -18,7 +18,8 @@ class Vendedor extends Model
         'fecha_nacimiento',
         'ci',
         'id_area_ventas',
-        'id_empresa'
+        'id_empresa',
+        'correo'
     ];
 
     // 🔁 Relaciones

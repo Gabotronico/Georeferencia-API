@@ -55,18 +55,18 @@ Route::post('/login', function (Request $request) {
     ]);
 });
 
-// Ruta de búsqueda personalizada (pública)
+// 📌 Rutas públicas de búsqueda personalizada
 Route::get('/clientes/buscar', [ClienteController::class, 'buscarPorNombre']);
-Route::apiResource('clientes', ClienteController::class);
-Route::apiResource('vendedores', VendedorController::class);
-Route::apiResource('visitas', VisitaController::class);
-Route::apiResource('zonas', ZonaController::class);
-Route::apiResource('departamentos', DepartamentoController::class);
-Route::apiResource('tipo-clientes', TipoClienteController::class);
-Route::apiResource('area-ventas', AreaVentaController::class);
-Route::apiResource('empresas', EmpresaController::class);
+Route::get('/clientes/por-vendedor', [ClienteController::class, 'buscarPorVendedor']);
 
-// Rutas protegidas por token
+// 📌 Rutas protegidas por token Sanctum
 Route::middleware('auth:sanctum')->group(function () {
-
+    Route::apiResource('clientes', ClienteController::class);
+    Route::apiResource('vendedores', VendedorController::class);
+    Route::apiResource('visitas', VisitaController::class);
+    Route::apiResource('zonas', ZonaController::class);
+    Route::apiResource('departamentos', DepartamentoController::class);
+    Route::apiResource('tipo-clientes', TipoClienteController::class);
+    Route::apiResource('area-ventas', AreaVentaController::class);
+    Route::apiResource('empresas', EmpresaController::class);
 });

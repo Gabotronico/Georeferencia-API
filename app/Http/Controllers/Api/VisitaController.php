@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Visita;
+use App\Models\Vendedor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NotificacionVisitaMailable;
 
 class VisitaController extends Controller
 {
@@ -23,7 +26,17 @@ class VisitaController extends Controller
             'estado' => 'nullable|in:Visitado,No visitado,Pendiente',
         ]);
 
-        return Visita::create($request->all());
+        $visita = Visita::create($request->all());
+
+        // 🟢 Enviar correo al vendedor
+        $vendedor = Vendedor::with('clientes')->find($request->id_vendedor);
+        $clientes = $vendedor->clientes->take(10); // Máximo 10 clientes
+
+        if ($vendedor && $vendedor->correo) {
+            Mail::to($vendedor->correo)->send(new NotificacionVisitaMailable($vendedor, $clientes));
+        }
+
+        return $visita;
     }
 
     public function show($id)

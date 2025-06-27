@@ -17,6 +17,7 @@ return new class extends Migration
        $table->string('apellido_paterno', 50);
        $table->string('apellido_materno', 50);
        $table->date('fecha_nacimiento')->nullable();
+       $table->string('correo', 100)->nullable();
        $table->integer('ci')->nullable();
        $table->unsignedBigInteger('id_area_ventas')->nullable();
        $table->unsignedBigInteger('id_empresa')->nullable();

@@ -8,9 +8,15 @@ use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Cliente::with(['vendedor', 'zona', 'departamento', 'tipoCliente'])->get();
+        $query = Cliente::with(['vendedor', 'zona', 'departamento', 'tipoCliente']);
+
+        if ($request->has('id_vendedor')) {
+            $query->where('id_vendedor', $request->id_vendedor);
+        }
+
+        return $query->get();
     }
 
     public function store(Request $request)
@@ -25,6 +31,12 @@ class ClienteController extends Controller
             'latitud' => 'required|numeric',
             'longitud' => 'required|numeric',
         ]);
+
+        // Verificar límite de clientes por vendedor
+        $cantidadClientes = Cliente::where('id_vendedor', $request->id_vendedor)->count();
+        if ($cantidadClientes >= 10) {
+            return response()->json(['error' => 'El vendedor ya tiene el máximo de 10 clientes registrados.'], 400);
+        }
 
         return Cliente::create($request->all());
     }
@@ -58,18 +70,38 @@ class ClienteController extends Controller
     {
         return Cliente::destroy($id);
     }
-    // Buscar cliente por nombre (coincidencia parcial o todos si no hay nombre)
+
+    // Buscar por nombre (coincidencia parcial)
     public function buscarPorNombre(Request $request)
     {
         $nombre = $request->query('nombre');
+        $idVendedor = $request->query('id_vendedor');
 
         $query = Cliente::with(['vendedor', 'zona', 'departamento', 'tipoCliente']);
+
         if ($nombre) {
             $query->where('nombre_cliente', 'like', "%{$nombre}%");
         }
-        $clientes = $query->get();
 
-        return response()->json($clientes);
+        if ($idVendedor) {
+            $query->where('id_vendedor', $idVendedor);
+        }
+
+        return $query->get();
     }
+    // Buscar clientes por ID de vendedor
+public function buscarPorVendedor(Request $request)
+    {
+    $vendedorId = $request->query('id_vendedor');
+
+    $clientes = Cliente::with(['vendedor', 'zona', 'departamento', 'tipoCliente'])
+        ->when($vendedorId, function ($query) use ($vendedorId) {
+            return $query->where('id_vendedor', $vendedorId);
+        })
+        ->get();
+
+    return response()->json($clientes);
+    }
+    
 }
 
