@@ -55,9 +55,6 @@ Route::post('/login', function (Request $request) {
     ]);
 });
 
-// 📌 Rutas públicas de búsqueda personalizada
-Route::get('/clientes/buscar', [ClienteController::class, 'buscarPorNombre']);
-Route::get('/clientes/por-vendedor', [ClienteController::class, 'buscarPorVendedor']);
 
 // 📌 Rutas protegidas por token Sanctum
 Route::middleware('auth:sanctum')->group(function () {

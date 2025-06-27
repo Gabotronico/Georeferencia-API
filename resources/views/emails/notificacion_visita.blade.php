@@ -1,14 +1,11 @@
 <h1>¡Hola {{ $vendedor->nombre_vendedor }}!</h1>
-<p>Estos son los clientes que debes visitar esta semana:</p>
+
+<p>Se te ha asignado una nueva visita:</p>
 
 <ul>
-    @foreach($clientes as $cliente)
-        <li>
-            {{ $cliente->nombre_cliente }} - {{ $cliente->barrio }}  
-            | 📅 Fecha y hora: {{ \Carbon\Carbon::parse($cliente->fecha_visita)->format('d/m/Y H:i') }}
-        </li>
-    @endforeach
+    <li>🧾 Cliente: {{ $clientes[0]->nombre_cliente }}</li>
+    <li>📍 Barrio: {{ $clientes[0]->barrio }}</li>
+    <li>📅 Fecha y hora: {{ \Carbon\Carbon::parse($clientes[0]->fecha_visita)->format('d/m/Y H:i') }}</li>
 </ul>
 
-<p>¡Éxito en tus visitas!</p>
-
+<p>¡Te deseamos mucho éxito en tu visita!</p>

@@ -12,7 +12,13 @@ class ClienteController extends Controller
     {
         $query = Cliente::with(['vendedor', 'zona', 'departamento', 'tipoCliente']);
 
-        if ($request->has('id_vendedor')) {
+        // Filtro opcional por nombre del cliente
+        if ($request->filled('nombre')) {
+            $query->where('nombre_cliente', 'like', '%' . $request->nombre . '%');
+        }
+
+        // Filtro opcional por ID del vendedor
+        if ($request->filled('id_vendedor')) {
             $query->where('id_vendedor', $request->id_vendedor);
         }
 
@@ -32,7 +38,6 @@ class ClienteController extends Controller
             'longitud' => 'required|numeric',
         ]);
 
-        // Verificar límite de clientes por vendedor
         $cantidadClientes = Cliente::where('id_vendedor', $request->id_vendedor)->count();
         if ($cantidadClientes >= 10) {
             return response()->json(['error' => 'El vendedor ya tiene el máximo de 10 clientes registrados.'], 400);
@@ -70,38 +75,4 @@ class ClienteController extends Controller
     {
         return Cliente::destroy($id);
     }
-
-    // Buscar por nombre (coincidencia parcial)
-    public function buscarPorNombre(Request $request)
-    {
-        $nombre = $request->query('nombre');
-        $idVendedor = $request->query('id_vendedor');
-
-        $query = Cliente::with(['vendedor', 'zona', 'departamento', 'tipoCliente']);
-
-        if ($nombre) {
-            $query->where('nombre_cliente', 'like', "%{$nombre}%");
-        }
-
-        if ($idVendedor) {
-            $query->where('id_vendedor', $idVendedor);
-        }
-
-        return $query->get();
-    }
-    // Buscar clientes por ID de vendedor
-public function buscarPorVendedor(Request $request)
-    {
-    $vendedorId = $request->query('id_vendedor');
-
-    $clientes = Cliente::with(['vendedor', 'zona', 'departamento', 'tipoCliente'])
-        ->when($vendedorId, function ($query) use ($vendedorId) {
-            return $query->where('id_vendedor', $vendedorId);
-        })
-        ->get();
-
-    return response()->json($clientes);
-    }
-    
 }
-
