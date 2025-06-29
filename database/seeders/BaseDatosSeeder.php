@@ -84,8 +84,9 @@ class BaseDatosSeeder extends Seeder
                 'id_departamento' => 1,
                 'id_tipo_cliente' => 1,
                 'barrio' => 'Queru Queru',
+                'correo' => 'farmaciacentral@gmail.com',
                 'latitud' => -17.3934,
-                'longitud' => -66.1571,
+                 'longitud' => -66.1571,
             ],
             [
                 'nombre_cliente' => 'Hospital San Juan',
@@ -94,6 +95,7 @@ class BaseDatosSeeder extends Seeder
                 'id_departamento' => 2,
                 'id_tipo_cliente' => 2,
                 'barrio' => 'San Roque',
+                'correo' => 'hospitalsanjuan@salud.bo',
                 'latitud' => -21.5336,
                 'longitud' => -64.7296,
             ],
@@ -106,7 +108,7 @@ class BaseDatosSeeder extends Seeder
                 'id_clientes' => 1,
                 'fecha_visita' => Carbon::now()->subDays(2),
                 'comentarios' => 'Cliente interesado en contrato mensual.',
-                'estado' => 'Visitado',
+                'estado' => 'Pendiente',
             ],
             [
                 'id_vendedor' => 2,

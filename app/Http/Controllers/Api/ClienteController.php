@@ -34,8 +34,9 @@ class ClienteController extends Controller
             'id_departamento' => 'required|exists:departamentos,id',
             'id_tipo_cliente' => 'required|exists:tipo_clientes,id',
             'barrio' => 'nullable|string|max:100',
+            'correo' => 'nullable|email|max:150',
             'latitud' => 'required|numeric',
-            'longitud' => 'required|numeric',
+            'longitud' => 'required|numeric'
         ]);
 
         $cantidadClientes = Cliente::where('id_vendedor', $request->id_vendedor)->count();
@@ -62,8 +63,10 @@ class ClienteController extends Controller
             'id_departamento' => 'required|exists:departamentos,id',
             'id_tipo_cliente' => 'required|exists:tipo_clientes,id',
             'barrio' => 'nullable|string|max:100',
+            'correo' => 'nullable|email|max:150',
             'latitud' => 'required|numeric',
-            'longitud' => 'required|numeric',
+            'longitud' => 'required|numeric'
+            
         ]);
 
         $cliente->update($request->all());

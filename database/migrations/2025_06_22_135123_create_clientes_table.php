@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_departamento');
             $table->unsignedBigInteger('id_tipo_cliente');
             $table->string('barrio', 100)->nullable();
+            $table->string('correo', 150)->nullable(); // 🆕 Campo agregado
             $table->float('latitud');
             $table->float('longitud');
             $table->timestamps();
