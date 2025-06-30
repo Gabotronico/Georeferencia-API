@@ -26,7 +26,7 @@ class VisitaController extends Controller
             $query->where('id_vendedor', $request->id_vendedor);
         }
 
-        return $query->orderBy('fecha_visita', 'desc')->get();
+        return $query->orderBy('created_at', 'desc')->get();
     }
 
     // ✅ Registro de visita + notificación a vendedor y cliente
@@ -72,35 +72,42 @@ class VisitaController extends Controller
         $request->validate([
             'id_vendedor' => 'required|exists:vendedors,id',
             'id_clientes' => 'required|exists:clientes,id',
-            'fecha_visita' => 'required|date',
+            'fecha_visita' => 'date', // ya no es requerido
             'comentarios' => 'nullable|string|max:200',
             'estado' => 'nullable|in:Visitado,No visitado,Pendiente',
         ]);
 
-        if ($visita->estado === 'No visitado' && $visita->fecha_visita !== $request->fecha_visita) {
-            $visita->update([
-                'fecha_visita' => $request->fecha_visita,
-                'comentarios' => $request->comentarios,
-                'estado' => 'Pendiente',
+        // Si la fecha cambia, crear un nuevo registro con la nueva fecha y sin comentario
+        if ($request->filled('fecha_visita') && $request->fecha_visita !== $visita->fecha_visita) {
+            $nuevaVisita = Visita::create([
+                'id_vendedor'   => $visita->id_vendedor,
+                'id_clientes'   => $visita->id_clientes,
+                'fecha_visita'  => $request->fecha_visita,
+                'comentarios'   => null,
+                'estado'        => 'Pendiente',
             ]);
 
-            // 🔹 Notificar cliente
-            $cliente = Cliente::find($request->id_clientes);
+            // Notificar cliente
+            $cliente = Cliente::find($visita->id_clientes);
             if ($cliente && $cliente->correo) {
-                Mail::to($cliente->correo)->send(new NotificacionClienteMailable($cliente, $visita));
+                Mail::to($cliente->correo)->send(new NotificacionClienteMailable($cliente, $nuevaVisita));
             }
 
-            // 🔹 Notificar vendedor
-            $vendedor = Vendedor::with('clientes')->find($request->id_vendedor);
+            // Notificar vendedor
+            $vendedor = Vendedor::with('clientes')->find($visita->id_vendedor);
             $clientes = $vendedor ? $vendedor->clientes->take(10) : collect();
 
             if ($vendedor && $vendedor->correo) {
                 Mail::to($vendedor->correo)->send(new NotificacionVisitaMailable($vendedor, $clientes));
             }
-        } else {
-            $visita->update($request->all());
         }
 
+        // Si el estado es Visitado y hay fecha_visita en el request, NO actualizar la fecha en el registro actual
+        $data = $request->all();
+        if (($visita->estado === 'Visitado' || $request->estado === 'Visitado') && $request->filled('fecha_visita')) {
+            unset($data['fecha_visita']);
+        }
+        $visita->update($data);
         return $visita;
     }
 
